@@ -1,7 +1,6 @@
-/* --- CORES E TEMA --- */
 :root {
   --bg-body: transparent;
-  --bg-card: #ffffff; /* Fundo do Box da lista */
+  --bg-card: #ffffff;
   --bg-hover: #f4f5f7;
   --text-main: #172b4d;
   --text-sub: #5e6c84;
@@ -9,6 +8,9 @@
   --icon-color: #6b778c;
   --input-bg: #fafbfc;
   --accent: #0079bf;
+  --note-bg: #fff7d6; /* Cor de fundo estilo Post-it suave */
+  --note-text: #172b4d;
+  --note-border: #e6c84f;
   --shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
@@ -23,157 +25,77 @@
     --icon-color: #9fadbc;
     --input-bg: #1d2125;
     --accent: #579dff;
+    --note-bg: #363920; /* Post-it escuro */
+    --note-text: #dcdfe4;
+    --note-border: #5a6035;
     --shadow: 0 1px 3px rgba(0,0,0,0.4);
   }
 }
 
 * { box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 2px; color: var(--text-main); background-color: var(--bg-body); }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  margin: 0;
-  padding: 2px;
-  color: var(--text-main);
-  background-color: var(--bg-body);
-}
+/* Bloco da Lista */
+.checklist-block { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; padding: 10px; box-shadow: var(--shadow); }
+.block-header { display: flex; align-items: center; margin-bottom: 8px; border-bottom: 2px solid var(--bg-hover); padding-bottom: 8px; }
+.input-list-title { flex-grow: 1; font-size: 15px; font-weight: 700; border: 1px solid transparent; background: transparent; color: var(--text-main); padding: 6px; border-radius: 4px; }
+.input-list-title:focus { background-color: var(--input-bg); border-color: var(--accent); outline: none; }
+.btn-delete-list { background: none; border: none; cursor: pointer; color: var(--text-sub); opacity: 0.5; padding: 6px; }
+.btn-delete-list:hover { opacity: 1; color: #cf3030; }
 
-/* --- BLOCO DA CHECKLIST (BOX) --- */
-.checklist-block {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px; /* Arredondado */
-  margin-bottom: 12px;
-  padding: 10px;
-  box-shadow: var(--shadow);
-}
+/* Linha do Item */
+.item-row { padding: 4px; border-radius: 4px; }
+.item-view { display: flex; align-items: flex-start; gap: 8px; padding: 4px 0; }
+.item-title { flex-grow: 1; font-size: 14px; cursor: pointer; line-height: 1.4; }
+.item-title.done { text-decoration: line-through; color: var(--text-sub); }
+input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; margin-top: 3px; }
 
-/* Cabeçalho do Bloco (Título + Delete) */
-.block-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-  border-bottom: 2px solid var(--bg-hover);
-  padding-bottom: 8px;
-}
-
-.input-list-title {
-  flex-grow: 1;
-  font-size: 15px;
-  font-weight: 700;
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--text-main);
-  padding: 6px;
-  border-radius: 4px;
-}
-
-.input-list-title:hover { background-color: var(--bg-hover); }
-.input-list-title:focus { 
-  background-color: var(--input-bg);
-  border-color: var(--accent);
-  outline: none;
-}
-
-/* Botão de deletar a lista inteira */
-.btn-delete-list {
+/* Ícone de Nota (O Indicativo) */
+.btn-note-toggle {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--text-sub);
-  opacity: 0.5;
-  padding: 6px;
-}
-.btn-delete-list:hover { opacity: 1; color: #cf3030; }
-
-/* Itens */
-.item-row {
-  padding: 6px 4px;
-  border-radius: 4px;
-}
-.item-row:hover { background-color: var(--bg-hover); }
-
-.item-view { display: flex; align-items: center; gap: 8px; }
-
-.item-title {
-  flex-grow: 1;
-  font-size: 14px;
-  cursor: pointer;
-}
-.item-title.done { text-decoration: line-through; color: var(--text-sub); }
-
-input[type="checkbox"] {
-  width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer;
-}
-
-/* Modo Edição do Item */
-.item-edit {
-  display: none;
-  background: var(--bg-hover);
-  padding: 8px;
-  border-radius: 4px;
-  margin-top: 5px;
-}
-.item-edit.visible { display: block; }
-
-.edit-input, .edit-textarea {
-  width: 100%;
-  padding: 6px;
-  margin-bottom: 6px;
-  border: 1px solid var(--border);
-  background: var(--input-bg);
-  color: var(--text-main);
+  color: var(--accent); /* Cor de destaque para mostrar que tem algo */
+  padding: 2px 4px;
   border-radius: 3px;
-  font-size: 14px;
-}
-.edit-textarea { min-height: 60px; resize: vertical; font-family: inherit; }
-
-/* Rodapé do Bloco (Adicionar Item) */
-.block-footer {
-  margin-top: 8px;
-  display: flex;
-  gap: 6px;
-}
-
-.input-new-item {
-  flex-grow: 1;
-  padding: 6px 8px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  background: var(--input-bg);
-  color: var(--text-main);
-  font-size: 13px;
-}
-.input-new-item:focus { border-color: var(--accent); outline: none; }
-
-/* Botões SVG */
-.btn-icon {
-  background: none; border: none; cursor: pointer; color: var(--text-sub); display: flex; align-items: center;
-}
-.btn-icon:hover { color: var(--text-main); }
-.desc-indicator svg { width: 12px; margin-left: 4px; stroke: var(--text-sub); }
-
-/* Botão Salvar/Cancelar */
-.btn-save { background: var(--accent); color: #fff; border:none; padding:4px 10px; border-radius:3px; cursor:pointer; }
-.btn-cancel { background: none; border:none; color:var(--text-sub); cursor:pointer; }
-
-/* Botão Criar Nova Lista (Global) */
-.btn-create-list {
-  width: 100%;
-  padding: 10px;
-  background-color: var(--bg-hover);
-  border: 1px dashed var(--border);
-  color: var(--text-sub);
-  border-radius: 6px;
-  cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-weight: 600;
-  transition: all 0.2s;
+  transition: background 0.2s;
 }
-.btn-create-list:hover {
-  background-color: var(--input-bg);
-  border-color: var(--accent);
-  color: var(--accent);
+.btn-note-toggle:hover { background-color: var(--bg-hover); }
+.btn-note-toggle svg { fill: currentColor; opacity: 0.2; } /* Preenchimento leve */
+
+/* Caixa de Visualização da Descrição (Leitura) */
+.item-desc-preview {
+  margin-left: 28px; /* Alinhado com o texto */
+  margin-top: 4px;
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  background-color: var(--note-bg);
+  border-left: 3px solid var(--note-border);
+  border-radius: 0 4px 4px 0;
+  color: var(--note-text);
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap; /* Respeita quebras de linha */
+  display: none; /* Escondido por padrão */
 }
+.item-desc-preview.visible { display: block; animation: fadeIn 0.2s; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Modo Edição */
+.item-edit { display: none; background: var(--bg-hover); padding: 8px; border-radius: 4px; margin-top: 5px; }
+.item-edit.visible { display: block; }
+.edit-input, .edit-textarea { width: 100%; padding: 6px; margin-bottom: 6px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text-main); border-radius: 3px; font-size: 14px; }
+.edit-textarea { min-height: 60px; resize: vertical; font-family: inherit; }
+
+/* Footer e Botões */
+.block-footer { margin-top: 8px; display: flex; gap: 6px; }
+.input-new-item { flex-grow: 1; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; background: var(--input-bg); color: var(--text-main); font-size: 13px; }
+.btn-icon { background: none; border: none; cursor: pointer; color: var(--text-sub); display: flex; align-items: center; }
+.btn-icon:hover { color: var(--text-main); }
+.btn-save { background: var(--accent); color: #fff; border:none; padding:4px 10px; border-radius:3px; cursor:pointer; }
+.btn-cancel { background: none; border:none; color:var(--text-sub); cursor:pointer; }
+.btn-create-list { width: 100%; padding: 10px; background-color: var(--bg-hover); border: 1px dashed var(--border); color: var(--text-sub); border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; }
+.btn-create-list:hover { background-color: var(--input-bg); border-color: var(--accent); color: var(--accent); }
