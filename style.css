@@ -1,53 +1,116 @@
+/* Reset básico */
+* { box-sizing: border-box; }
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
-  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   margin: 0;
-  background-color: transparent; /* Importante para fundir com o card */
+  padding: 0;
+  color: #172b4d;
 }
 
-.checklist-item {
-  background: #f4f5f7;
-  border-radius: 4px;
-  padding: 10px;
-  margin-bottom: 8px;
-  border: 1px solid #dfe1e6;
+#content {
+  padding: 2px;
 }
 
-.checklist-header {
-  display: flex;
-  align-items: center;
-  font-weight: bold;
+/* Estilo do Item da Lista */
+.item-row {
+  background: #fff;
+  border-bottom: 1px solid #ebecf0;
+  padding: 8px 4px;
 }
 
-.checklist-header input[type="checkbox"] {
-  margin-right: 10px;
-  transform: scale(1.2);
+.item-view {
+  display: flex; /* Alinha tudo numa linha só */
+  align-items: center; /* Centraliza verticalmente */
+  gap: 10px;
 }
 
-.checklist-desc {
-  margin-top: 5px;
-  margin-left: 26px; /* Alinhado com o texto */
+.item-view.hidden {
+  display: none;
+}
+
+/* Checkbox */
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  margin: 0;
+}
+
+/* Texto do Título */
+.item-title {
+  flex-grow: 1; /* Ocupa todo o espaço sobrando */
   font-size: 14px;
-  color: #5e6c84;
-  white-space: pre-wrap; /* Mantém as quebras de linha */
+  cursor: pointer;
 }
 
-.add-form {
-  margin-top: 15px;
-  padding-top: 10px;
-  border-top: 1px solid #eee;
+.item-title.done {
+  text-decoration: line-through;
+  color: #6b778c;
 }
 
-input, textarea {
-  width: 95%;
-  padding: 8px;
-  margin-bottom: 5px;
-  border: 1px solid #dfe1e6;
+/* Botões de Ação (Ícones) */
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
   border-radius: 3px;
+  font-size: 16px;
+  opacity: 0.6;
+}
+
+.action-btn:hover {
+  background-color: #ebecf0;
+  opacity: 1;
+}
+
+/* Ícone indicando que tem descrição */
+.desc-indicator {
+  font-size: 12px;
+  color: #0079bf;
+  margin-right: 5px;
+}
+
+/* Modo de Edição (Formulário Aberto) */
+.item-edit {
+  display: none;
+  background: #f4f5f7;
+  padding: 10px;
+  border-radius: 3px;
+}
+
+.item-edit.visible {
   display: block;
 }
 
-.trello-btn {
+.edit-input {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 8px;
+  border: 1px solid #dfe1e6;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.edit-textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 6px;
+  margin-bottom: 8px;
+  border: 1px solid #dfe1e6;
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 13px;
+  resize: vertical;
+}
+
+.btn-group {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-save {
   background-color: #0079bf;
   color: white;
   border: none;
@@ -56,11 +119,38 @@ input, textarea {
   cursor: pointer;
 }
 
-.trello-btn:hover {
-  background-color: #026aa7;
+.btn-cancel {
+  background-color: transparent;
+  color: #172b4d;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
 }
 
-.done {
-  text-decoration: line-through;
-  opacity: 0.6;
+/* Área de Adicionar Novo */
+.add-section {
+  display: flex;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+#new-item-input {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid #dfe1e6;
+  border-radius: 3px;
+}
+
+.btn-primary {
+  background-color: #091e420f;
+  color: #172b4d;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background-color: #ebecf0;
 }
