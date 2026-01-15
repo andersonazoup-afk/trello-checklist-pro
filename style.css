@@ -1,101 +1,188 @@
+/* --- PALETA DE CORES INTELIGENTE --- */
 :root {
+  /* MODO CLARO (Light Mode) */
   --bg-body: transparent;
   --bg-card: #ffffff;
   --bg-hover: #f4f5f7;
   --text-main: #172b4d;
   --text-sub: #5e6c84;
   --border: #dfe1e6;
-  --icon-color: #6b778c;
-  --input-bg: #fafbfc;
   --accent: #0079bf;
-  --note-bg: #fff7d6; /* Cor de fundo estilo Post-it suave */
-  --note-text: #172b4d;
-  --note-border: #e6c84f;
   --shadow: 0 1px 3px rgba(0,0,0,0.08);
+
+  /* Cor da Nota no Modo Claro (Cinza neutro, não mais amarelo) */
+  --note-bg: #ebecf0; 
+  --note-text: #091e42;
+  --note-border: #dfe1e6;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /* MODO ESCURO (Dark Mode) */
     --bg-body: transparent;
-    --bg-card: #22272b;
+    --bg-card: #22272b; /* Fundo do Trello Escuro */
     --bg-hover: #2c333a;
     --text-main: #b6c2cf;
     --text-sub: #9fadbc;
     --border: #3b444c;
-    --icon-color: #9fadbc;
-    --input-bg: #1d2125;
     --accent: #579dff;
-    --note-bg: #363920; /* Post-it escuro */
-    --note-text: #dcdfe4;
-    --note-border: #5a6035;
     --shadow: 0 1px 3px rgba(0,0,0,0.4);
+
+    /* Cor da Nota no Modo Escuro (Pedido: Escura, mas levemente mais clara que o fundo) */
+    --note-bg: #2c333a; /* Um tom acima do fundo #22272b */
+    --note-text: #dcdfe4;
+    --note-border: #3b444c;
   }
 }
 
 * { box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 2px; color: var(--text-main); background-color: var(--bg-body); }
 
-/* Bloco da Lista */
-.checklist-block { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; padding: 10px; box-shadow: var(--shadow); }
-.block-header { display: flex; align-items: center; margin-bottom: 8px; border-bottom: 2px solid var(--bg-hover); padding-bottom: 8px; }
-.input-list-title { flex-grow: 1; font-size: 15px; font-weight: 700; border: 1px solid transparent; background: transparent; color: var(--text-main); padding: 6px; border-radius: 4px; }
-.input-list-title:focus { background-color: var(--input-bg); border-color: var(--accent); outline: none; }
-.btn-delete-list { background: none; border: none; cursor: pointer; color: var(--text-sub); opacity: 0.5; padding: 6px; }
-.btn-delete-list:hover { opacity: 1; color: #cf3030; }
+/* --- ESTRUTURA --- */
 
-/* Linha do Item */
-.item-row { padding: 4px; border-radius: 4px; }
-.item-view { display: flex; align-items: flex-start; gap: 8px; padding: 4px 0; }
-.item-title { flex-grow: 1; font-size: 14px; cursor: pointer; line-height: 1.4; }
-.item-title.done { text-decoration: line-through; color: var(--text-sub); }
-input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; margin-top: 3px; }
+/* Bloco da Checklist */
+.checklist-block {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 16px; /* Mais espaço entre listas */
+  padding: 12px;
+  box-shadow: var(--shadow);
+}
 
-/* Ícone de Nota (O Indicativo) */
+.block-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  border-bottom: 2px solid var(--bg-hover);
+  padding-bottom: 8px;
+}
+
+.input-list-title {
+  flex-grow: 1;
+  font-size: 15px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-main);
+  padding: 6px;
+  border-radius: 4px;
+}
+.input-list-title:focus { background-color: var(--bg-hover); border-color: var(--accent); outline: none; }
+
+.btn-delete-list { background: none; border: none; cursor: pointer; color: var(--text-sub); opacity: 0.5; padding: 6px; transition: opacity 0.2s; }
+.btn-delete-list:hover { opacity: 1; color: #ff5630; }
+
+/* --- ITENS DA LISTA (Novo Espaçamento) --- */
+.item-row {
+  margin-bottom: 8px; /* Separação funcional entre itens */
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.1); /* Linha divisória ultra sutil */
+}
+.item-row:last-child { border-bottom: none; margin-bottom: 0; }
+
+.item-view {
+  display: flex;
+  align-items: flex-start; /* Alinha no topo caso o texto quebre linha */
+  gap: 10px;
+  padding: 2px 0;
+}
+
+.item-title {
+  flex-grow: 1;
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 1.5;
+  color: var(--text-main);
+  transition: color 0.2s;
+}
+.item-title:hover { color: var(--accent); }
+.item-title.done { text-decoration: line-through; color: var(--text-sub); opacity: 0.8; }
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  cursor: pointer;
+  margin-top: 3px; /* Alinhamento ótico com texto */
+}
+
+/* Ícone de Nota */
 .btn-note-toggle {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--accent); /* Cor de destaque para mostrar que tem algo */
-  padding: 2px 4px;
-  border-radius: 3px;
+  color: var(--accent);
+  padding: 4px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
-  transition: background 0.2s;
+  opacity: 0.8;
+  transition: all 0.2s;
 }
-.btn-note-toggle:hover { background-color: var(--bg-hover); }
-.btn-note-toggle svg { fill: currentColor; opacity: 0.2; } /* Preenchimento leve */
+.btn-note-toggle:hover { background-color: var(--bg-hover); opacity: 1; transform: scale(1.1); }
+.btn-note-toggle svg { fill: currentColor; opacity: 0.15; }
 
-/* Caixa de Visualização da Descrição (Leitura) */
+/* --- A NOTA (PREVIEW COM ANIMAÇÃO) --- */
 .item-desc-preview {
-  margin-left: 28px; /* Alinhado com o texto */
-  margin-top: 4px;
-  margin-bottom: 8px;
-  padding: 8px 10px;
+  margin-top: 6px;
+  margin-left: 28px; /* Indentação */
+  padding: 12px;
+  
+  /* Visual Dark/Clean */
   background-color: var(--note-bg);
-  border-left: 3px solid var(--note-border);
-  border-radius: 0 4px 4px 0;
   color: var(--note-text);
+  border: 1px solid var(--note-border);
+  border-left: 3px solid var(--accent); /* Detalhe colorido na esquerda */
+  border-radius: 6px;
+  
   font-size: 13px;
-  line-height: 1.5;
-  white-space: pre-wrap; /* Respeita quebras de linha */
-  display: none; /* Escondido por padrão */
+  line-height: 1.6;
+  white-space: pre-wrap;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+  /* Estado Inicial (Escondido) */
+  display: none;
+  opacity: 0;
+  transform: translateY(-10px);
 }
-.item-desc-preview.visible { display: block; animation: fadeIn 0.2s; }
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+/* Estado Visível (Animado) */
+.item-desc-preview.visible {
+  display: block;
+  animation: slideDown 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
 
-/* Modo Edição */
-.item-edit { display: none; background: var(--bg-hover); padding: 8px; border-radius: 4px; margin-top: 5px; }
-.item-edit.visible { display: block; }
-.edit-input, .edit-textarea { width: 100%; padding: 6px; margin-bottom: 6px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text-main); border-radius: 3px; font-size: 14px; }
-.edit-textarea { min-height: 60px; resize: vertical; font-family: inherit; }
+/* Animação Keyframes */
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
 
-/* Footer e Botões */
-.block-footer { margin-top: 8px; display: flex; gap: 6px; }
-.input-new-item { flex-grow: 1; padding: 6px 8px; border: 1px solid var(--border); border-radius: 4px; background: var(--input-bg); color: var(--text-main); font-size: 13px; }
-.btn-icon { background: none; border: none; cursor: pointer; color: var(--text-sub); display: flex; align-items: center; }
-.btn-icon:hover { color: var(--text-main); }
-.btn-save { background: var(--accent); color: #fff; border:none; padding:4px 10px; border-radius:3px; cursor:pointer; }
-.btn-cancel { background: none; border:none; color:var(--text-sub); cursor:pointer; }
-.btn-create-list { width: 100%; padding: 10px; background-color: var(--bg-hover); border: 1px dashed var(--border); color: var(--text-sub); border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; }
-.btn-create-list:hover { background-color: var(--input-bg); border-color: var(--accent); color: var(--accent); }
+/* Botões SVG Genéricos */
+.btn-icon { background: none; border: none; cursor: pointer; color: var(--text-sub); opacity: 0.6; padding: 4px; border-radius:3px; }
+.btn-icon:hover { opacity: 1; color: var(--text-main); background-color: var(--bg-hover); }
+
+/* Footer e Edição */
+.block-footer { margin-top: 10px; display: flex; gap: 8px; }
+.input-new-item { flex-grow: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-body); color: var(--text-main); font-size: 13px; }
+.input-new-item:focus { border-color: var(--accent); outline: none; background: var(--bg-card); }
+
+.item-edit { display: none; background: var(--bg-hover); padding: 10px; border-radius: 6px; margin-top: 8px; border: 1px solid var(--border); }
+.item-edit.visible { display: block; animation: slideDown 0.2s ease-out forwards; }
+.edit-input, .edit-textarea { width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-main); border-radius: 4px; font-size: 14px; }
+.edit-textarea { min-height: 80px; resize: vertical; font-family: inherit; }
+
+.btn-save { background: var(--accent); color: #fff; border:none; padding: 6px 12px; border-radius:4px; cursor:pointer; font-weight: 500; }
+.btn-save:hover { filter: brightness(1.1); }
+.btn-cancel { background: none; border:none; color:var(--text-sub); cursor:pointer; padding: 6px 12px; }
+.btn-cancel:hover { text-decoration: underline; }
+
+.btn-create-list { width: 100%; padding: 12px; background-color: transparent; border: 2px dashed var(--border); color: var(--text-sub); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; transition: all 0.2s; }
+.btn-create-list:hover { border-color: var(--accent); color: var(--accent); background-color: rgba(9, 30, 66, 0.04); }
