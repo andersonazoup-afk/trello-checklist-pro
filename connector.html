@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://p.trellocdn.com/power-up.min.js"></script>
+</head>
+<body>
+  <script>
+    TrelloPowerUp.initialize({
+      'card-back-section': function(t, options) {
+        return {
+          title: 'Checklist Detalhado', // Nome da seção no Card
+          icon: 'https://cdn.glitch.com/1b42d7fe-bda8-4af8-a6c8-eff0cea9e08a%2Frocket-ship.png?1494946700421', // Um ícone qualquer
+          content: {
+            type: 'iframe',
+            url: t.signUrl('./index.html'), // Aponta para o seu index
+            height: 200 // Altura inicial
+          }
+        };
+      }
+    });
+  </script>
+</body>
+</html>
