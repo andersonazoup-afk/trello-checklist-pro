@@ -1,156 +1,245 @@
-/* Reset básico */
+/* --- CORES E TEMA (Variáveis CSS) --- */
+:root {
+  /* Padrão Claro (Light Mode) */
+  --bg-body: transparent;
+  --bg-item: #ffffff;
+  --bg-hover: #f4f5f7;
+  --text-main: #172b4d;
+  --text-sub: #5e6c84;
+  --border: #dfe1e6;
+  --icon-color: #42526e;
+  --input-bg: #fafbfc;
+  --accent: #0079bf;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Padrão Escuro (Dark Mode Trello) */
+    --bg-body: transparent;
+    --bg-item: #22272b; /* Cor do card no dark mode */
+    --bg-hover: #2c333a;
+    --text-main: #b6c2cf;
+    --text-sub: #9fadbc;
+    --border: #3b444c;
+    --icon-color: #9fadbc;
+    --input-bg: #1d2125;
+    --accent: #579dff;
+  }
+}
+
+/* --- ESTILOS GERAIS --- */
 * { box-sizing: border-box; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
   margin: 0;
   padding: 0;
-  color: #172b4d;
+  color: var(--text-main);
+  background-color: var(--bg-body);
 }
 
-#content {
-  padding: 2px;
+/* Título da Checklist */
+.header-section {
+  margin-bottom: 12px;
+  padding: 0 4px;
 }
 
-/* Estilo do Item da Lista */
+#checklist-title {
+  width: 100%;
+  background: transparent;
+  border: 1px solid transparent; /* Invisível até focar */
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+  padding: 6px;
+  border-radius: 3px;
+  transition: background 0.2s, border 0.2s;
+}
+
+#checklist-title:hover {
+  background-color: var(--bg-hover);
+}
+
+#checklist-title:focus {
+  background-color: var(--input-bg);
+  border-color: var(--accent);
+  outline: none;
+}
+
+/* Container de Itens */
+#checklist-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Linha do Item */
 .item-row {
-  background: #fff;
-  border-bottom: 1px solid #ebecf0;
-  padding: 8px 4px;
+  background: var(--bg-item);
+  border: 1px solid transparent;
+  border-radius: 3px;
+  padding: 6px 8px;
+  transition: background 0.2s;
+}
+
+.item-row:hover {
+  background-color: var(--bg-hover);
 }
 
 .item-view {
-  display: flex; /* Alinha tudo numa linha só */
-  align-items: center; /* Centraliza verticalmente */
+  display: flex;
+  align-items: center;
   gap: 10px;
 }
 
-.item-view.hidden {
-  display: none;
-}
-
-/* Checkbox */
+/* Checkbox Customizado (Simples) */
 input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
   cursor: pointer;
-  margin: 0;
 }
 
-/* Texto do Título */
+/* Título do Item */
 .item-title {
-  flex-grow: 1; /* Ocupa todo o espaço sobrando */
+  flex-grow: 1;
   font-size: 14px;
   cursor: pointer;
+  color: var(--text-main);
 }
 
 .item-title.done {
   text-decoration: line-through;
-  color: #6b778c;
+  color: var(--text-sub);
 }
 
-/* Botões de Ação (Ícones) */
-.action-btn {
+/* Ícone indicador de descrição */
+.desc-indicator {
+  margin-left: 6px;
+  opacity: 0.7;
+}
+
+.desc-indicator svg {
+  vertical-align: middle;
+  stroke: var(--text-sub);
+}
+
+/* Botões de Ação (Ícones SVG) */
+.btn-icon {
   background: none;
   border: none;
   cursor: pointer;
   padding: 4px;
   border-radius: 3px;
-  font-size: 16px;
-  opacity: 0.6;
+  color: var(--icon-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
 }
 
-.action-btn:hover {
-  background-color: #ebecf0;
+.btn-icon:hover {
+  background-color: rgba(128, 128, 128, 0.2);
   opacity: 1;
+  color: var(--text-main);
 }
 
-/* Ícone indicando que tem descrição */
-.desc-indicator {
-  font-size: 12px;
-  color: #0079bf;
-  margin-right: 5px;
+.btn-icon svg {
+  width: 16px;
+  height: 16px;
 }
 
-/* Modo de Edição (Formulário Aberto) */
+/* Área de Edição */
 .item-edit {
   display: none;
-  background: #f4f5f7;
+  background-color: var(--bg-hover);
   padding: 10px;
-  border-radius: 3px;
+  border-radius: 4px;
+  margin-top: 4px;
 }
 
 .item-edit.visible {
   display: block;
 }
 
-.edit-input {
+.edit-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-sub);
+  margin-bottom: 4px;
+  margin-top: 8px;
+}
+.edit-label:first-child { margin-top: 0; }
+
+.edit-input, .edit-textarea {
   width: 100%;
-  padding: 6px;
-  margin-bottom: 8px;
-  border: 1px solid #dfe1e6;
+  background-color: var(--input-bg);
+  border: 2px solid var(--border);
+  color: var(--text-main);
+  padding: 8px;
   border-radius: 3px;
   font-size: 14px;
 }
 
+.edit-input:focus, .edit-textarea:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
 .edit-textarea {
-  width: 100%;
-  min-height: 60px;
-  padding: 6px;
-  margin-bottom: 8px;
-  border: 1px solid #dfe1e6;
-  border-radius: 3px;
-  font-family: inherit;
-  font-size: 13px;
+  min-height: 80px;
   resize: vertical;
+  font-family: inherit;
 }
 
 .btn-group {
+  margin-top: 10px;
   display: flex;
   gap: 8px;
+  justify-content: flex-end;
 }
 
 .btn-save {
-  background-color: #0079bf;
-  color: white;
+  background-color: var(--accent);
+  color: #fff;
   border: none;
   padding: 6px 12px;
   border-radius: 3px;
+  font-weight: 600;
   cursor: pointer;
 }
 
 .btn-cancel {
-  background-color: transparent;
-  color: #172b4d;
+  background: none;
   border: none;
-  padding: 6px 12px;
+  color: var(--text-sub);
   cursor: pointer;
+  padding: 6px 12px;
 }
+
+.btn-cancel:hover { text-decoration: underline; }
 
 /* Área de Adicionar Novo */
 .add-section {
   display: flex;
-  margin-top: 10px;
+  align-items: center;
+  margin-top: 8px;
+  padding: 4px;
   gap: 8px;
 }
 
 #new-item-input {
   flex-grow: 1;
+  background-color: var(--bg-body);
+  border: 1px solid var(--border);
+  color: var(--text-main);
   padding: 8px;
-  border: 1px solid #dfe1e6;
   border-radius: 3px;
 }
 
-.btn-primary {
-  background-color: #091e420f;
-  color: #172b4d;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 3px;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.btn-primary:hover {
-  background-color: #ebecf0;
+#new-item-input:focus {
+  border-color: var(--accent);
+  outline: none;
 }
