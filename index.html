@@ -3,12 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
   <script src="https://p.trellocdn.com/power-up.min.js"></script>
+  <style>
+    /* CSS de emergência caso o arquivo style.css demore para atualizar */
+    body { padding: 10px; font-family: sans-serif; }
+    .debug-version { font-size: 10px; color: #aaa; text-align: right; margin-bottom: 5px; }
+  </style>
 </head>
 <body>
   <div id="content">
     
+    <div class="debug-version">Versão 2.0 (Multi-Listas)</div>
+
     <div id="lists-container"></div>
 
     <button id="btn-new-list" class="btn-create-list">
@@ -18,9 +25,24 @@
       </svg>
       Criar Nova Checklist
     </button>
+    
+    <div style="margin-top: 20px; text-align: center;">
+        <button id="btn-clear-data" style="background: none; border: none; color: #ff0000; font-size: 10px; cursor: pointer; opacity: 0.3;">[Resetar Dados do Card]</button>
+    </div>
 
   </div>
 
-  <script src="client.js"></script>
+  <script src="client.js?v=2"></script>
+  
+  <script>
+    // Script de emergência para limpar dados antigos se der erro
+    document.getElementById('btn-clear-data').addEventListener('click', function(){
+        if(confirm('Isso vai apagar TODOS os dados desta checklist neste cartão. Continuar?')){
+            var t = TrelloPowerUp.iframe();
+            t.set('card', 'shared', 'multiChecklists', [])
+             .then(function(){ location.reload(); });
+        }
+    });
+  </script>
 </body>
 </html>
